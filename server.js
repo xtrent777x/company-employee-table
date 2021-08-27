@@ -35,7 +35,7 @@ startApp = () => {
         type: 'list',
         name: 'choice',
         message: 'Make your selection',
-        choices: ['View all departments?', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', "Update current employee", "quit"]
+        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', "Update current employee", "quit"]
     }).then(function (answer) {
         // list choice response based of selection
         switch (answer.choice) {
@@ -68,9 +68,15 @@ startApp = () => {
 }
 
 // functions for all responses
+//https://www.w3schools.com/nodejs/nodejs_mysql_select.asp --- show example how run with sql connecting pulling tables request
 
-
-
+viewDepartments = () => {
+    const query = `select id AS department_id, name AS Departments from departments;`;
+    connection.query(query, function(err, query){
+      console.table(query);
+      startApp();
+    });
+  };
 // //view by role, show job title table
 
 
