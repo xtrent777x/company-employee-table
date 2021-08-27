@@ -66,3 +66,41 @@ startApp = () => {
         }
     })
 }
+
+// functions for all responses
+
+
+
+// //view by role, show job title table
+
+
+
+
+//view employees show employee table
+
+
+
+
+//add department prompt of what department to add
+
+
+
+
+
+//add a role, enter name salary and department
+
+
+
+
+
+//add employee, prompt first than last name  and role
+
+
+
+
+//update employee role, slect empoyee and new role
+
+
+
+
+// quit function to end node function
