@@ -79,12 +79,25 @@ viewDepartments = () => {
   };
 // //view by role, show job title table
 
-
-
+viewRoles = () => {
+    const query = `select id AS role_id, title, salary from role;`;
+    connection.query(query, function(err, query){
+      console.table(query);
+      startApp();
+    });
+  };  
 
 //view employees show employee table
 
-
+viewEmployees = () => {
+    var query = `select employees.id, employees.first_name, employees.last_name, role.title, departments.name AS department, role.salary, 
+    CONCAT(manager.first_name, ' ', manager.last_name) AS Manager FROM employees LEFT JOIN role on employees.role_id = role.id 
+    LEFT JOIN departments on role.department_id = departments.id LEFT JOIN employees manager on manager.id = employees.manager_id;`;
+    connection.query(query, function(err, query){
+        console.table(query);
+        startApp();
+    });
+};
 
 
 //add department prompt of what department to add
@@ -110,3 +123,7 @@ viewDepartments = () => {
 
 
 // quit function to end node function
+
+quit = () => {
+    connection.end();  //https://stackoverflow.com/questions/20692989/node-mysql-where-does-connection-end-go
+}
