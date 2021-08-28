@@ -156,7 +156,6 @@ function addRole() {
     {
       type: 'list',
       name: 'department_id',
-  
       message: 'Role department:',
       choices: departmentChoice
     }
@@ -191,7 +190,84 @@ function addRole() {
 
 //add employee, prompt first than last name  and role
 
-
+function addEmployee() {
+ 
+    var roleChoice = [];
+    connection.query('SELECT * FROM role', function(err, resRole) {
+      if (err) throw err;
+      for (var i = 0; i < resRole.length; i++) {
+        var roleList = resRole[i].title;
+        roleChoice.push(roleList);
+      };
+  
+      var departmentChoice = [];
+      connection.query('SELECT * FROM departments', function(err, resDepartment) {
+        if (err) throw err;
+        for (var i = 0; i < resDepartment.length; i++) {
+          var departmentList = resDepartment[i].name;
+          departmentChoice.push(departmentList);
+      }
+      
+    inquirer
+      .prompt([
+      {
+        type: 'input',
+        name: 'firstName',
+        message: 'employees first name:'
+      },
+      {
+        type: 'input',
+        name: 'lastName',
+        message: 'employees last name:'
+      },
+      {
+        type: 'list',
+        name: 'role_id',
+        message: 'employee role:',
+        choices: roleChoice
+      },
+      {
+        type: 'list',
+        name: 'department_id',
+        message: 'employees department:',
+        choices: departmentChoice
+      },
+  
+    ])
+      .then(function(answer) {
+        //for loop to retun 
+        var chosenRole;
+          for (var i = 0; i < resRole.length; i++) {
+            if (resRole[i].title === answer.role_id) {
+              chosenRole = resRole[i];
+            }
+          };
+  
+          var chosenDepartment;
+          for (var i = 0; i < resDept.length; i++) {
+            if (resDepartment[i].name === answer.department_id) {
+              chosenDepartment = resDepartment[i];
+            }
+          };
+        connection.query(
+          'INSERT INTO employees SET ?',
+          {
+            first_name: answer.firstName,
+            last_name: answer.lastName,
+            role_id: chosenRole.id,
+            department_id: chosenDept.id
+          },
+          function(err) {
+            if (err) throw err;
+            console.log('employee' + answer.firstName + " " + answer.lastName + 'employee added!');
+            startApp();
+          }
+        );
+      })
+     });
+    })
+  };
+  
 
 
 //update employee role, slect empoyee and new role
