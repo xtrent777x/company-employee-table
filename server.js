@@ -48,7 +48,7 @@ startApp = () => {
                 case 'View all employees':
                 viewEmployees();
                 break;
-                case 'Add a departments':
+                case 'Add a department':
                 addDepartment();
                 break;
                 case 'Add a role':
@@ -88,7 +88,8 @@ viewRoles = () => {
   };  
 
 //view employees show employee table
-
+//https://www.w3schools.com/sql/sql_join.asp
+//https://www.w3schools.com/sql/func_sqlserver_concat.asp
 viewEmployees = () => {
     var query = `select employees.id, employees.first_name, employees.last_name, role.title, departments.name AS department, role.salary, 
     CONCAT(manager.first_name, ' ', manager.last_name) AS Manager FROM employees LEFT JOIN role on employees.role_id = role.id 
@@ -101,8 +102,31 @@ viewEmployees = () => {
 
 
 //add department prompt of what department to add
-
-
+//https://www.w3schools.com/sql/sql_insert.asp
+//https://www.youtube.com/watch?v=3Qq93zqO3GE
+addDepartment = () => {
+    inquirer
+      .prompt([
+      {
+        name: 'department',
+        type: 'input',
+        message: 'Enter new departments name:'
+      }
+    ])
+    .then(function(answer) {
+      connection.query(
+        'INSERT INTO departments SET ?',
+        {
+          name: answer.dept
+        },
+        function(err) {
+          if (err) throw err;
+          console.log('Department ' + answer.department +  'successfully created!');
+          startApp();
+        }
+      );
+    });
+  };
 
 
 
