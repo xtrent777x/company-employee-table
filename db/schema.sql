@@ -24,3 +24,6 @@ CREATE TABLE employees (
   FOREIGN KEY (role_id) REFERENCES role(id),
   FOREIGN KEY (manager_id) REFERENCES employees(id)
 );
+
+--https://www.w3schools.com/sql/sql_foreignkey.asp
+--https://www.quora.com/How-do-you-use-the-reference-keyword-properly-in-MySQL

@@ -132,7 +132,60 @@ addDepartment = () => {
 
 //add a role, enter name salary and department
 
-
+function addRole() {
+    var departmentChoice = [];
+      connection.query('SELECT * FROM departments', function(err, resDepartment) {
+        if (err) throw err;
+        for (var i = 0; i < resDepartment.length; i++) {
+          var departmentList = resDepartment[i].name;
+          departmentChoice.push(departmentList);
+      }
+  
+    inquirer
+    .prompt([
+    {
+      type: 'input',
+      name: 'title',
+      message: 'Enter new roles name:'
+    },
+    {
+      type: 'number',
+      name: 'salary',
+      message: 'Enter roles salary:'
+    },
+    {
+      type: 'list',
+      name: 'department_id',
+  
+      message: 'Role department:',
+      choices: departmentChoice
+    }
+  ])
+  .then(function(answer) {
+  
+    var chosenDepartment;
+          for (var i = 0; i < resDepartment.length; i++) {
+            if (resDepartment[i].name === answer.department_id) {
+              chosenDepartment = resDepartment[i];
+            }
+          };
+  
+    connection.query(
+      'INSERT INTO role SET ?',
+      {
+        title: answer.title,
+        salary:answer.salary,
+        department_id: chosenDepartment.id
+      },
+      function(err) {
+        if (err) throw err;
+        console.log('New role' + answer.title + 'Role updated!');
+        startApp();
+      }
+    );
+  });
+  })
+  };
 
 
 
