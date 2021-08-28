@@ -11,7 +11,6 @@ const connection = mysql.createConnection(
     {
       host: 'localhost',
       // MySQL username,
-    
       user: 'root',
       // MySQL password
       password: '',
@@ -91,7 +90,7 @@ viewRoles = () => {
 //https://www.w3schools.com/sql/sql_join.asp
 //https://www.w3schools.com/sql/func_sqlserver_concat.asp
 viewEmployees = () => {
-    var query = `select employees.id, employees.first_name, employees.last_name, role.title, departments.name AS department, role.salary, 
+    const query = `select employees.id, employees.first_name, employees.last_name, role.title, departments.name AS department, role.salary, 
     CONCAT(manager.first_name, ' ', manager.last_name) AS Manager FROM employees LEFT JOIN role on employees.role_id = role.id 
     LEFT JOIN departments on role.department_id = departments.id LEFT JOIN employees manager on manager.id = employees.manager_id;`;
     connection.query(query, function(err, query){
@@ -270,8 +269,68 @@ addEmployee = () => {
 
 
 //update employee role, slect empoyee and new role
-
-
+//https://www.w3schools.com/sql/func_sqlserver_concat.asp
+updateEmployee = () => {
+    var employeeChoice = [];
+    connection.query("SELECT id, CONCAT(first_name, ' ', last_name) AS name FROM employees", function(err, resEmployee) {
+        if (err) throw err;
+        for (var i = 0; i < resEmployee.length; i++) {
+          var employeeList = resEmployee[i].name;
+          employeeChoice.push(employeeList);
+      };
+      
+      var roleChoice = [];
+    connection.query('SELECT * FROM role', function(err, resRole) {
+      if (err) throw err;
+      for (var i = 0; i < resRole.length; i++) {
+        var roleList = resRole[i].title;
+        roleChoice.push(roleList);
+      };
+  
+      inquirer
+      .prompt([
+      {
+        type: 'list',
+        name: 'employee_id',
+        message: 'What employee you would like to update:',
+        choices: employeeChoice
+      },
+      {
+        type: 'list',
+        name: 'role_id',
+        message: 'employee new role:',
+        choices: roleChoice
+      }
+    ])
+    .then(function(answer) {
+  
+      var chosenEmployee;
+          for (var i = 0; i < resEmployee.length; i++) {
+            if (resEmployee[i].name === answer.employee_id) {
+              chosenEmployee = resEmployee[i];
+          }
+        };
+  
+      var chosenRole;
+        for (var i = 0; i < resRole.length; i++) {
+          if (resRole[i].title === answer.role_id) {
+            chosenRole = resRole[i];
+          }
+        };
+        connection.query(
+          'UPDATE employees SET role_id = ? WHERE id = ?',
+          [chosenRole.id, chosenEmployee.id],
+          function(err) {
+            if (err) throw err;
+            console.log('Employee role is changed!');
+            startApp();
+          }
+        );
+      })
+     })
+    })
+  };
+  
 
 
 // quit function to end node function
@@ -279,3 +338,4 @@ addEmployee = () => {
 quit = () => {
     connection.end();  //https://stackoverflow.com/questions/20692989/node-mysql-where-does-connection-end-go
 }
+
