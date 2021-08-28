@@ -339,3 +339,7 @@ quit = () => {
     connection.end();  //https://stackoverflow.com/questions/20692989/node-mysql-where-does-connection-end-go
 }
 
+// other resources 
+// https://www.youtube.com/watch?v=EN6Dx22cPRI
+// https://www.youtube.com/watch?v=zbMHLJ0dY
+// https://github.com/kingsleyramos/Employee-Tracker --- used help with figuring out add department
