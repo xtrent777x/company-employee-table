@@ -35,7 +35,7 @@ startApp = () => {
         type: 'list',
         name: 'choice',
         message: 'Make your selection',
-        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', "Update current employee", "quit"]
+        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update current employee', 'quit']
     }).then(function (answer) {
         // list choice response based of selection
         switch (answer.choice) {
@@ -132,7 +132,7 @@ addDepartment = () => {
 
 //add a role, enter name salary and department
 
-function addRole() {
+addRole = () => {
     var departmentChoice = [];
       connection.query('SELECT * FROM departments', function(err, resDepartment) {
         if (err) throw err;
@@ -190,7 +190,7 @@ function addRole() {
 
 //add employee, prompt first than last name  and role
 
-function addEmployee() {
+addEmployee = () => {
  
     var roleChoice = [];
     connection.query('SELECT * FROM role', function(err, resRole) {
@@ -235,7 +235,6 @@ function addEmployee() {
   
     ])
       .then(function(answer) {
-        //for loop to retun 
         var chosenRole;
           for (var i = 0; i < resRole.length; i++) {
             if (resRole[i].title === answer.role_id) {
@@ -244,7 +243,7 @@ function addEmployee() {
           };
   
           var chosenDepartment;
-          for (var i = 0; i < resDept.length; i++) {
+          for (var i = 0; i < resDepartment.length; i++) {
             if (resDepartment[i].name === answer.department_id) {
               chosenDepartment = resDepartment[i];
             }
@@ -254,8 +253,8 @@ function addEmployee() {
           {
             first_name: answer.firstName,
             last_name: answer.lastName,
-            role_id: chosenRole.id,
-            department_id: chosenDept.id
+            role_id: chosenRole.id, 
+            department_id: chosenDepartment.id
           },
           function(err) {
             if (err) throw err;
