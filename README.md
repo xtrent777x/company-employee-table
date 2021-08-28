@@ -19,6 +19,13 @@ Any company big or small would be able to use this to see the employees they hav
 ![Screen Shot 2021-08-28 at 1 21 54 PM](https://user-images.githubusercontent.com/84681402/131228664-6c9ca05f-28a5-44e8-9492-7374de26ca2c.png)
 ![Screen Shot 2021-08-28 at 1 21 20 PM](https://user-images.githubusercontent.com/84681402/131228665-3942fb6d-22b3-4abb-a7d0-52e711d148fb.png)
 
+## table of contents
 
+* [Title](#title)
+* [Description](#description)
+* [languages](#languages)              
+* [Use](#use)
+* [screenshots](#screenshots)
+* [live demo](#demo)
 
 ### Live demo
